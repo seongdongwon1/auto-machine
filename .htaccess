@@ -1,0 +1,19 @@
+# RewriteEngine On
+# Options +FollowSymlinks
+# RewriteRule ^inc/.*$ index.php
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteRule ^([a-zA-Z0-9_]+)/([0-9]+)$ index.php?route=$1&uri=$2
+
+
+Options +SymLinksIfOwnerMatch 
+# Prevent 301 redirect with slash when folder exists and does not have slash appended
+# This is not a security issue here since a PHP router is used and all the paths are redirected
+DirectorySlash Off
+
+# Since "DirectorySlash Off" is set, ensure that mod_auotindex directory listings are disabled
+Options -Indexes
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /index.php?uri=$1 [NC,L,QSA]
